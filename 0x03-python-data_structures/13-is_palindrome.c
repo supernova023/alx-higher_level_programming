@@ -29,13 +29,31 @@ listint_t *rev_list(listint_t **head)
 int is_palindrome(listint_t **head)
 {
 	listint_t *temp, *rv;
+	size_t lislen = 0, x;
 
 	if (*head == NULL || (*head)->next == NULL)
 		return (1);
 
 	temp = *head;
+
+	while (temp)
+	{
+		lislen++;
+		temp = temp->next;
+	}
+
+	temp = *head;
+	for (x = 0; x < (lislen / 2) - 1; x++)
+		temp = temp->next;
+
+	if ((lislen % 2) == 0 && temp->n != temp->next->n)
+		return (0);
+
+	temp = temp->next->next;
+
 	rv = rev_list(&temp);
 
+	temp = *head;
 	while (rv)
 	{
 		if (temp->n != rv->n)
@@ -43,5 +61,6 @@ int is_palindrome(listint_t **head)
 		temp = temp->next;
 		rv = rv->next;
 	}
+
 	return (1);
 }
